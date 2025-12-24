@@ -34,6 +34,41 @@ app.get('/api/products', async (req, res) => {
   }
 });
 
+app.get('/api/walmart-products', async (req, res) => {
+  try {
+    const { search } = req.query;
+    
+    const response = await axios.get('https://fakestoreapi.com/products');
+    
+    let products = response.data.map((item) => ({
+      id: item.id,
+      name: item.title,
+      price: item.price,
+      image: item.image,
+      description: item.description,
+      category: item.category,
+      score: Math.floor(Math.random() * 21) + 70,
+      ecoPoints: Math.floor(Math.random() * 150) + 50,
+      inStock: true
+    }));
+
+    // Filter products by search term if provided
+    if (search) {
+      const searchLower = search.toLowerCase();
+      products = products.filter(item => 
+        item.name.toLowerCase().includes(searchLower) ||
+        item.description.toLowerCase().includes(searchLower) ||
+        item.category.toLowerCase().includes(searchLower)
+      );
+    }
+
+    res.json(products);
+  } catch (err) {
+    console.error('Error fetching Walmart products:', err.message);
+    res.status(500).json({ error: 'Failed to fetch Walmart products' });
+  }
+});
+
 app.post('/api/cart/add', async (req, res) => {
   const { productId, quantity } = req.body;
 
