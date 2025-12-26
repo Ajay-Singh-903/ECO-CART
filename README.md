@@ -41,7 +41,7 @@ Make sure you have the following installed:
 ### Clone the Repository
 
 bash
-git clone https://github.com/Niharikabutola/eco-cart.git
+git clone https://github.com/Ajay-Singh-903/ECO-CART.git
 cd eco-cart
 
 
